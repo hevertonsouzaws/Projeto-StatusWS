@@ -1,0 +1,82 @@
+const employeesData = [
+  {
+    employeeId: 1,
+    name: 'Heverton Souza',
+    position: 'Desenvolvedor',
+    photo: 'https://media.licdn.com/dms/image/v2/D4D03AQHNCUKIxaNiAQ/profile-displayphoto-scale_100_100/B4DZlDytuPG8Ac-/0/1757778995556?e=1761177600&v=beta&t=Y1g8rZbICkIX1KjKfLRp1h5EOifIke_fnW9b1h0l35k',
+    isActive: true,
+    status: {
+      customText: 'Projeto Status WS',
+      updateAt: new Date().toISOString(),
+      statusType: {
+        statusTypeId: 2,
+        description: 'Codando',
+        iconUrl: 'https://cdn-icons-gif.flaticon.com/8722/8722699.gif'
+      }
+    }
+  },
+  {
+    employeeId: 2,
+    name: 'Rafaela Nascimento',
+    position: 'Desenvolvedor',
+    photo: 'https://media.licdn.com/dms/image/v2/D4D03AQGOlDiOrstV0w/profile-displayphoto-shrink_200_200/B4DZcjF6rkGUAY-/0/1748640445474?e=1761177600&v=beta&t=taw7ziI8lszfM1B8BsIYV3BBvUQV4vV69mnnmCinc7s',
+    isActive: true,
+    status: {
+      customText: 'Projeto Crespusculo',
+      updateAt: new Date().toISOString(),
+      statusType: {
+        statusTypeId: 2,
+        description: 'Codando',
+        iconUrl: 'https://cdn-icons-gif.flaticon.com/8722/8722699.gif'
+      }
+    }
+  },
+  {
+    employeeId: 3,
+    name: 'Regis Beraldi',
+    position: 'Gerente de TI',
+    photo: 'https://media.licdn.com/dms/image/v2/D4D03AQGrBeDX4yDubg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1709943456501?e=1761177600&v=beta&t=kNG__DbxoYiH1xtVWEPb9hcitxz8TNzfq9eibAb-kEU',
+    isActive: true,
+    status: {
+      customText: 'Alinhamento Conect',
+      updateAt: new Date().toISOString(),
+      statusType: {
+        statusTypeId: 6,
+        description: 'Reunião',
+        iconUrl: 'https://cdn-icons-gif.flaticon.com/10690/10690276.gif'
+      }
+    }
+  }
+];
+
+export const getEmployees = () => {
+  return Promise.resolve(employeesData);
+};
+
+const generateNewId = () => {
+  const ids = employeesData.map(e => e.employeeId);
+  return ids.length > 0 ? Math.max(...ids) + 1 : 1;
+};
+
+export const mockService = {
+  getEmployees: async () => {
+    // Simula o delay de uma chamada de API
+    return new Promise(resolve => setTimeout(() => resolve(employeesData), 500));
+  },
+  addEmployee: async (employeeData) => {
+    return new Promise(resolve => {
+      const newEmployee = { ...employeeData, employeeId: generateNewId() };
+      employeesData.push(newEmployee);
+      resolve(newEmployee);
+    });
+  },
+  updateEmployee: async (updatedData) => {
+    return new Promise(resolve => {
+      const index = employeesData.findIndex(e => e.employeeId === updatedData.employeeId);
+      if (index !== -1) {
+        employeesData[index] = updatedData;
+      }
+      resolve(updatedData);
+    });
+  }
+};
