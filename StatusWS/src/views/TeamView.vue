@@ -2,16 +2,23 @@
   <div class="p-8 bg-gray-900 min-h-screen text-gray-100">
 
     <div ref="formAnchorRef"></div>
+    <div class="flex justify-end mb-4">
+      <button @click="editingEmployee = {}"
+        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition-colors">
+        + Novo
+      </button>
+    </div>
 
-    <TeamForm :initial-data="editingEmployee" @submit="handleFormSubmit"
-      @cancel-edit="clearEditingEmployee" class="mb-8" />
+    <div v-if="editingEmployee" class="mb-8">
+      <TeamForm :initial-data="editingEmployee" @submit="handleFormSubmit" @cancel-edit="clearEditingEmployee" />
+    </div>
 
-    <div v-if="loading" class="text-center">Carregando...</div>
+    <div v-if="loading" class="text-center">Calma ai, o trem está carregando...</div>
     <div v-else>
       <div class="glass-effect rounded-2xl p-6 max-w-7xl mx-auto mb-8">
-        <h2 class="text-xl font-semibold text-white mb-6">Funcionários Ativos</h2>
+        <h2 class="text-xl font-semibold text-white mb-6">WS's Ativos</h2>
         <div v-if="employees.length === 0" class="text-center text-gray-400">
-          Nenhum funcionário ativo encontrado.
+          Nenhum WS ativo encontrado.
         </div>
         <div v-else class="flex flex-wrap justify-start gap-6">
           <TeamCard v-for="employee in employees" :key="employee.employeeId" :employee="employee"
@@ -20,7 +27,7 @@
       </div>
 
       <div v-if="inactiveEmployees.length > 0" class="glass-effect rounded-2xl p-6 max-w-7xl mx-auto">
-        <h2 class="text-xl font-semibold text-white mb-6">Funcionários Inativos</h2>
+        <h2 class="text-xl font-semibold text-white mb-6">Inativos</h2>
         <div class="flex flex-wrap justify-start gap-6">
           <TeamCard v-for="employee in inactiveEmployees" :key="employee.employeeId" :employee="employee"
             @edit-employee="handleEditEmployee" />
@@ -74,7 +81,7 @@ function clearEditingEmployee() {
 
 async function handleFormSubmit(employeeData) {
   try {
-    if (editingEmployee.value) {
+    if (employeeData.employeeId) {
       const updateDto = {
         name: employeeData.name,
         position: employeeData.position,
@@ -93,11 +100,12 @@ async function handleFormSubmit(employeeData) {
     } else {
       const newEmployee = await createEmployee(employeeData);
       employees.value.push(newEmployee);
-      alert('Funcionário adicionado com sucesso!');
+      clearEditingEmployee();
+      alert('WS adicionado com sucesso!');
     }
   } catch (error) {
-    console.error('Falha na operação:', error);
-    alert('Erro ao processar a requisição. Verifique o console.');
+    console.error('Falha no post:', error);
+    alert('Erro! Verifique o console.');
   }
 }
 
@@ -108,12 +116,7 @@ onMounted(() => {
 watch(isMockMode, () => {
   fetchAllEmployees();
 });
+
 </script>
 
-<style scoped>
-.glass-effect {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-</style>
+<style scoped></style>

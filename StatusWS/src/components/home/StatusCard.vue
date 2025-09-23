@@ -19,7 +19,7 @@
           <p class="text-sm text-gray-200 bg-red-00 ">
             {{ employee.status?.customText || '...' }}
           </p>
-          <p class="text-sm text-gray-500">
+          <p class="text-sm text-green-100">
             Última atualização: {{ statusInfo.time }}
           </p>
         </div>

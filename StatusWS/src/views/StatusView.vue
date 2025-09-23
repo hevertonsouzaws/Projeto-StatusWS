@@ -28,7 +28,7 @@ async function fetchStatusTypes() {
   try {
     statusTypes.value = await getStatusTypes();
   } catch (error) {
-    console.error('Falha ao buscar tipos de status:', error);
+    console.error('Deu erro aqui, verifique se o back end ta ligado!:', error);
   } finally {
     loading.value = false;
   }
