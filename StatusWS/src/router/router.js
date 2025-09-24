@@ -4,12 +4,14 @@ import Login from '../views/Login.vue';
 import HomeView from '../views/HomeView.vue';
 import TeamView from '../views/TeamView.vue';
 import StatusView from '../views/StatusView.vue'
+import UserStatusView from '../views/UserStatusView.vue';
 
 const routes = [
   { path: '/', name: 'login', component: Login},
   { path: '/home', name: 'home', component: HomeView, meta: { requiresAuth: true } },
   { path: '/team', name: 'team', component: TeamView, meta: { requiresAuth: true, requiresAdmin: true } },
-  { path: '/status', name: 'status', component: StatusView, meta: { requiresAuth: true }  }
+  { path: '/status', name: 'status', component: StatusView, meta: { requiresAuth: true }  },
+  { path: '/user', name: 'user', component: UserStatusView, meta: { requiresAuth: true }}
 ];
 
 const router = createRouter({
