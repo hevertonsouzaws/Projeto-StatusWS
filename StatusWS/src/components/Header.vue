@@ -1,10 +1,12 @@
 <template>
   <header class="bg-gray-900 shadow-xl text-amber-50 border-b border-blue-700 sticky top-0  z-50">
-    <div class="w-full mx-auto px-6 py-4">
+    <div class="w-full mx-auto px-6 py-5">
       <div class="flex items-center justify-between">
         <div class="flex items-center space-x-4">
           <div>
-            <img class="w-18 h-14" src="/logo-vetor.png" alt="">
+            <router-link to="/home" class="hover:text-blue-300">
+              <img class="w-18 h-14" src="/logo-vetor.png" alt="">
+            </router-link>            
           </div>
           <div>
             <h1 class="text-2xl text-white">Status WS</h1>
@@ -15,7 +17,8 @@
           <router-link to="/" class="hover:text-white-300">Login</router-link>
           <router-link to="/home" class="hover:text-blue-300">Home</router-link>
           <router-link v-if="isAdmin" to="/team" class="hover:text-red-300">Equipe</router-link>
-          <router-link to="/status" class="hover:text-green-300">Status</router-link>
+          <router-link v-if="isAdmin" to="/status" class="hover:text-green-300">Status</router-link>
+          <router-link to="/user" class="hover:text-green-300">Usuário</router-link>
 
           <button @click="toggleMode" :class="[
             'px-4 py-2 rounded-lg font-medium transition-colors cursor-pointer',
@@ -26,7 +29,7 @@
 
           <div v-if="usuarioLogado" class="flex items-center">
             <span class="text-white text-sm mr-2">Logado como:</span>
-            <img :src="usuarioLogado.photo" alt="Foto de perfil" class="w-12 h-12 rounded-full border-2 border-red-500">
+            <img :src="usuarioLogado.photo" alt="Foto de perfil" class="w-14 h-14 rounded-full border-2 border-red-500">
           </div>
         </nav>
       </div>
