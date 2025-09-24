@@ -4,8 +4,8 @@
     <div ref="formAnchorRef"></div>
     <div class="flex justify-end mb-4">
       <button @click="editingEmployee = {}"
-        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition-colors">
-        + Novo
+         class="cursor-pointer bg-gradient-to-r from-red-600 to-purple-600 hover:red-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 neon-glow ">
+        <span class="font-bold">+</span> Novo WS
       </button>
     </div>
 

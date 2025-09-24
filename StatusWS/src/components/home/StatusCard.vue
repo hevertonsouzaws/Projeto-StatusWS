@@ -2,7 +2,7 @@
   <div class="flex flex-col items-center bg-gray-800 rounded-2xl py-4 px-5 shadow-lg transform duration-300 min-w-84">
     <div class="flex items-center w-full mb-1">
       <div
-        class="relative w-14 h-14 rounded-full overflow-hidden border-2 border-transparent bg-blue-500 flex-shrink-0">
+        class="relative w-14 h-14 rounded-full overflow-hidden border border-transparent bg-green-500 flex-shrink-0">
         <img :src="employee.photo" :alt="employee.name" class="w-full h-full object-cover">
       </div>
       <div class="ml-4 flex-grow">
@@ -13,7 +13,7 @@
     <div class="bg-gray-800/50 rounded-lg px-1 py-4 w-full">
       <div class="flex items-center justify-between">
         <div class="flex flex-col space-y-2">
-          <p class="text-base font-medium text-green-400">
+          <p class="text-lg font-medium text-green-400">
             {{ employee.status?.statusType?.description }}
           </p>
           <p class="text-sm text-gray-200 bg-red-00 ">

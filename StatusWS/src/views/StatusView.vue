@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-7xl mx-auto p-8 bg-gray-900 min-h-screen text-gray-100">
     <div class="flex items-center justify-between mb-8">
-      <h1 class="text-3xl font-bold">Gerenciar Plaquinhas de Status</h1>
+      <h1 class="text-3xl font-bold">Tipos de status</h1>
     </div>
 
     <StatusForm :initial-data="editingStatus" @submit="handleFormSubmit" @cancel-edit="cancelEdit" class="mb-8" />
