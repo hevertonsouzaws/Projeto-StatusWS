@@ -63,6 +63,13 @@ export const mockService = {
     // Simula o delay de uma chamada de API
     return new Promise(resolve => setTimeout(() => resolve(employeesData), 500));
   },
+  getEmployeeById: async (id) => {
+    return new Promise(resolve => {
+      // Encontra o funcionário pelo ID
+      const employee = employeesData.find(emp => emp.employeeId === id);
+      resolve(employee || null); // Retorna o funcionário ou null se não encontrar
+    });
+  },
   addEmployee: async (employeeData) => {
     return new Promise(resolve => {
       const newEmployee = { ...employeeData, employeeId: generateNewId() };

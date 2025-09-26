@@ -32,6 +32,20 @@ export async function getInactiveEmployees() {
   }
 }
 
+export async function getEmployeeById(id) {
+  if (isMockMode.value) {
+    return mockService.getEmployeeById(id);
+  }
+
+  try {
+    const response = await api.get(`/Employee/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Erro ao buscar funcionário ${id}:`, error);
+    throw error;
+  }
+}
+
 export async function createEmployee(newEmployee) {
   if (isMockMode.value) {
     return mockService.addEmployee(newEmployee);
