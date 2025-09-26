@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Consumindo API</title>
+</head>
+<style>
+    body {
+        font-family: sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;       
+    }
+
+    #status-container {
+        width: 60%;
+        padding: 80px 5px;
+        background-color: #ccc;
+        border: 2px solid #000;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+        border-radius: 20px;
+    }
+
+    .status-item {
+        text-align: center;
+        padding: 20px;
+        background-color: #fff;
+        border: 2px solid #000;
+        border-radius: 8px;
+        width: 150px;
+        font-size: 16px;
+    }
+
+    .status-item:hover {
+        background: linear-gradient(rgba(0, 119, 255, 0.562), rgba(194, 2, 194, 0.637), rgba(0, 0, 0, 0.466));
+        cursor: pointer;
+        border: 2px solid #000;
+        scale: 1.1;
+        transition: 0.5s;
+    }
+
+    .status-item img {
+        width: 80px;
+        height: 70px;
+        margin-bottom: 10px;
+    }
+</style>
+
+<body>
+
+    <h1>Status WS</h1>
+
+    <div id="status-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="axios-fetch.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso JS - Guanabara</title>
+    <link rel="stylesheet" href="aula.css">
+</head>
+
+<body onload="carregar()">
+    <header>
+        <div id="ws1">
+            <h1>#Som</h1>
+        </div>
+        <div id="ws2">
+            <h1>osWS</h1>
+        </div>
+    </header>
+
+    <div id="area" onclick="clicar()" onmouseover="entrar()" onmouseout="sair()">
+        Interaja...
+    </div>
+
+    <section class="container">
+        <section class="caixas">
+            <div class="webSupply" id="t1" onmouseenter="mudarTexto()" onmouseout="desfazer()">
+                <p>Websupply</p>
+            </div>
+            <div class="webSupply" id="t2" onmouseenter="mudarTexto()" onmouseout="desfazer()">
+                <p>Unidos pela inovação</p>
+            </div>
+            <div class="webSupply" id="t3" onmouseenter="mudarTexto()" onmouseout="desfazer()">
+                <p>Impulsionando o futuro!</p>
+            </div>
+        </section>
+    </section>
+
+    <section class="container">
+        <section class="caixas">
+            <div class="forms">
+                <h1>Soma de números</h1>
+                <input type="number" name="txtn1" id="txtn1"> +
+                <input type="number" name="txtn2" id="txtn2">
+                <div id="resultado"></div>
+                <button class="botao" type="button" name="somar" onclick="somar()">somar</button>
+            </div>
+        </section>
+
+    </section>
+
+    <section class="container">
+        <section id="horario">
+            <div id="horas">
+                <h1>Bom dia!</h1>
+                <h1 id="msg">
+                    Testando...
+                </h1>
+            </div>
+        </section>
+    </section>
+
+    <script src="aula.js"></script>
+</body>
+
+</html>

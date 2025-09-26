@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\74841\\source\\repos\\EstudosFullStcak.NET\\PrimeiroPrograma\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6460CC18-8BA4-4EE4-AF66-7E60295C04EE}|PrimeiroPrograma\\PrimeiroPrograma.csproj|c:\\users\\74841\\source\\repos\\estudosfullstcak.net\\primeiroprograma\\primeiroprograma\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6460CC18-8BA4-4EE4-AF66-7E60295C04EE}|PrimeiroPrograma\\PrimeiroPrograma.csproj|solutionrelative:primeiroprograma\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\74841\\source\\repos\\EstudosFullStcak.NET\\PrimeiroPrograma\\PrimeiroPrograma\\Program.cs",
+              "RelativeDocumentMoniker": "PrimeiroPrograma\\Program.cs",
+              "ToolTip": "C:\\Users\\74841\\source\\repos\\EstudosFullStcak.NET\\PrimeiroPrograma\\PrimeiroPrograma\\Program.cs*",
+              "RelativeToolTip": "PrimeiroPrograma\\Program.cs*",
+              "ViewState": "AgIAAB8BAAAAAAAAAAAAADsBAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-01T16:21:33.041Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
