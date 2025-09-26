@@ -213,9 +213,9 @@ namespace StatusWS.Controllers
                 }
             }
 
+            employee.Status.CustomText = employeeUpdateDto.CustomText;
             if (employeeUpdateDto.CustomText != null)
             {
-                employee.Status.CustomText = employeeUpdateDto.CustomText;
                 employee.Status.UpdateAt = DateTimeUtils.GetBrazilTime();
             }
 
