@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+  --primary: #2091f9;
+  --text: #252b42;
+  --secondaryText: #374754;
+  --darkBackground: #252b42;
+}

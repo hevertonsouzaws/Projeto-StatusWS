@@ -1,0 +1,15 @@
+C:\Users\74841\source\repos\EstudosFullStcak.NET\PrimeiroPrograma\PrimeiroPrograma\bin\Debug\net8.0\PrimeiroPrograma.exe
+C:\Users\74841\source\repos\EstudosFullStcak.NET\PrimeiroPrograma\PrimeiroPrograma\bin\Debug\net8.0\PrimeiroPrograma.deps.json
+C:\Users\74841\source\repos\EstudosFullStcak.NET\PrimeiroPrograma\PrimeiroPrograma\bin\Debug\net8.0\PrimeiroPrograma.runtimeconfig.json
+C:\Users\74841\source\repos\EstudosFullStcak.NET\PrimeiroPrograma\PrimeiroPrograma\bin\Debug\net8.0\PrimeiroPrograma.dll
+C:\Users\74841\source\repos\EstudosFullStcak.NET\PrimeiroPrograma\PrimeiroPrograma\bin\Debug\net8.0\PrimeiroPrograma.pdb
+C:\Users\74841\source\repos\EstudosFullStcak.NET\PrimeiroPrograma\PrimeiroPrograma\obj\Debug\net8.0\PrimeiroPrograma.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\74841\source\repos\EstudosFullStcak.NET\PrimeiroPrograma\PrimeiroPrograma\obj\Debug\net8.0\PrimeiroPrograma.AssemblyInfoInputs.cache
+C:\Users\74841\source\repos\EstudosFullStcak.NET\PrimeiroPrograma\PrimeiroPrograma\obj\Debug\net8.0\PrimeiroPrograma.AssemblyInfo.cs
+C:\Users\74841\source\repos\EstudosFullStcak.NET\PrimeiroPrograma\PrimeiroPrograma\obj\Debug\net8.0\PrimeiroPrograma.csproj.CoreCompileInputs.cache
+C:\Users\74841\source\repos\EstudosFullStcak.NET\PrimeiroPrograma\PrimeiroPrograma\obj\Debug\net8.0\PrimeiroPrograma.dll
+C:\Users\74841\source\repos\EstudosFullStcak.NET\PrimeiroPrograma\PrimeiroPrograma\obj\Debug\net8.0\refint\PrimeiroPrograma.dll
+C:\Users\74841\source\repos\EstudosFullStcak.NET\PrimeiroPrograma\PrimeiroPrograma\obj\Debug\net8.0\PrimeiroPrograma.pdb
+C:\Users\74841\source\repos\EstudosFullStcak.NET\PrimeiroPrograma\PrimeiroPrograma\obj\Debug\net8.0\PrimeiroPrograma.genruntimeconfig.cache
+C:\Users\74841\source\repos\EstudosFullStcak.NET\PrimeiroPrograma\PrimeiroPrograma\obj\Debug\net8.0\ref\PrimeiroPrograma.dll
+C:\Users\74841\source\repos\EstudosFullStcak.NET\PrimeiroPrograma\PrimeiroPrograma\obj\Debug\net8.0\PrimeiroPrograma.sourcelink.json

@@ -1,0 +1,141 @@
+body {
+    background-color: #fff;
+    color: #fff;
+    margin: 0;
+    padding: 0; 
+}
+
+header {
+    width: 100%;
+    height: 120px;
+    background-color: rgb(7, 7, 87);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+header div {
+    width: 130px;
+    height: 80px;
+    text-transform: uppercase;
+}
+
+#ws1 {
+    background-color: rgb(255, 48, 48);
+    text-align: right;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+#ws2 {
+    background-color: blue;
+    text-align: left;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+#area {
+    width: 50%;
+    height: 50px;
+    background-color: rgb(7, 7, 87);
+    text-align: center;
+    margin: auto;
+    color: #fff;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    font-size: 34px;
+}
+
+.container {
+    width: 60%;
+    height: 500px;
+    background-color: rgb(7, 7, 87);
+    border-radius: 20px;
+    margin: auto;
+    margin-top: 50px;
+    padding: 10px; 
+}
+
+.caixas{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.webSupply {
+    width: 80%;
+    height: 80px;
+    border: 2px solid #fff;
+    border-radius: 15px;
+    font-size: 24px;
+    text-align: center;
+    color: #fff;
+    margin-top: 40px;
+}
+
+.webSupply p {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.forms{
+   width: 70%;
+   border: 2px solid white;
+   height: 50%;
+   border-radius: 15px;
+   padding: 40px;
+   text-align: center;
+   margin-top: 50px;
+}
+
+.forms input{
+    background-color: beige;
+    width: 20%;
+    text-align: center;
+    padding: 10px;
+}
+
+#resultado {
+    width: 20%;
+    height: 40px;
+    margin: auto;
+    background-color: beige;
+    margin-top: 10px;
+    color: black;
+    font-size: 18px;
+    text-align: center;
+
+}
+
+.botao {
+    padding: 10px;
+    width: 20%;
+    margin-top: 15px;
+}
+
+#horario {    
+    width: 90%;
+    height: 90%;
+    margin: auto;
+    border: 2px solid white;
+    border-radius: 15px;
+    margin-top: 20px;
+    background-image: url(imagens/sol.jpg);
+}
+
+#horas {
+    background-color: rgba(0, 0, 0, 0.534);
+    text-align: center;
+    width: 50%;
+    height: 30%;
+    margin: auto;
+    margin-top: 130px;
+    border-radius: 20px;
+    font-size: 24px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
