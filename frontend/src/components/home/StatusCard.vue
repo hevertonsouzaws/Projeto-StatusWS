@@ -20,7 +20,7 @@
             {{ employee.status?.customText || '...' }}
           </p>
           <p class="text-sm text-green-100">
-            Última atualização: {{ statusInfo.time }}
+            Atualização: {{ formattedTimeAgo }}
           </p>
         </div>
         <div class="flex-shrink-0">
@@ -37,6 +37,7 @@
 
 <script setup>
 import { computed } from 'vue';
+import { getTimeAgo } from '../../helpers/dateUtils'; 
 
 const props = defineProps({
   employee: {
@@ -45,11 +46,12 @@ const props = defineProps({
   }
 });
 
-const statusInfo = computed(() => {
-  const date = new Date(props.employee.status.updateAt);
-  const time = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-  return {
-    time
-  };
+const formattedTimeAgo = computed(() => {
+    if (!props.employee?.status?.updateAt) {
+        return 'Nunca';
+    }
+    return getTimeAgo(props.employee.status.updateAt);
 });
+
+// A propriedade 'statusInfo' foi removida, pois 'formattedTimeAgo' a substitui
 </script>

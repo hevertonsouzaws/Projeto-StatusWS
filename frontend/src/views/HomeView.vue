@@ -43,7 +43,17 @@ async function fetchEmployees() {
 }
 
 const activeEmployees = computed(() => {
-    return employees.value.filter(emp => emp.isActive);
+    const activeList = employees.value.filter(emp => emp.isActive);
+
+    activeList.sort((a, b) => {
+        const dateA = new Date(a.status?.updateAt || 0);
+        const dateB = new Date(b.status?.updateAt || 0);
+        
+        return dateB.getTime() - dateA.getTime();
+    });
+
+    return activeList;
+
 });
 
 const statusCounts = computed(() => {
