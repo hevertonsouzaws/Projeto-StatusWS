@@ -38,7 +38,7 @@ async function fetchEmployees() {
     } finally {
         setTimeout(() => {
             loading.value = false;
-        }, 1500)
+        }, 500)
     }
 }
 

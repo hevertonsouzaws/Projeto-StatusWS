@@ -1,9 +1,9 @@
 <template>
-  <div class="bg-gray-800 rounded-3xl p-6 shadow-xl w-full mt-8">
+   <div class="bg-gray-800 rounded-3xl p-6 shadow-xl mt-8 w-full mx-auto">
     
     <h2 class="text-2xl font-bold text-white mb-6">Atualizar Status</h2>
     
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 w-full">
       <div
         v-for="status in statusTypes"
         :key="status.statusTypeId"

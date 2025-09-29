@@ -1,5 +1,5 @@
 <template>
-  <div v-if="employee" class="bg-gray-800 rounded-3xl p-6 shadow-xl w-full">
+  <div v-if="employee" class="bg-gray-800 rounded-3xl p-6 shadow-xl w-[60%]">
     <div class="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-6">
       
       <div class="flex flex-col items-center flex-shrink-0">
@@ -16,15 +16,15 @@
       </div>
 
       <div class="flex-grow w-full">
-        <h3 class="text-white text-3xl font-bold mb-3">Olá: {{ employee.name }} </h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-gray-700 pt-4">
+        <h3 class="text-white text-3xl font-bold mb-1">Olá: {{ employee.name }} </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-gray-700 pt-2">
           
           <div>
-            <div class="text-gray-300 font-medium mb-1">Cargo</div>
+            <div class="text-gray-300 font-medium">Cargo</div>
             <p class="text-white text-lg">{{ employee.position || 'N/A' }}</p>
           </div>
           
-          <div class="sm:col-span-2 pt-4 border-t border-gray-700 mt-4">
+          <div class="sm:col-span-2 pt-2 border-t border-gray-700">
             <h4 class="text-lg font-semibold text-green-400 mb-2 flex items-center">
                 Status Atual:
             </h4>
@@ -32,7 +32,7 @@
                 <img v-if="employee.status?.statusType?.iconUrl" :src="employee.status.statusType.iconUrl" class="w-8 h-8 rounded-full" :alt="employee.status.statusType.description" />
                 <p class="text-2xl font-bold text-white">{{ employee.status?.statusType?.description || 'Offline' }}</p>
             </div>
-            <p class="text-md text-gray-400 mt-2">{{ employee.status?.customText || 'Sem descrição personalizada.' }}</p>
+            <p class="text-md text-gray-400 mt-2">{{ employee.status.customText || employee.status.displayText || 'Sem descrição personalizada.' }}</p>
             <p class="text-sm text-gray-500 mt-2">Última atualização: {{ formattedTime }}</p>
           </div>
         </div>
