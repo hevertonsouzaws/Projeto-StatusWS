@@ -41,7 +41,7 @@ const employeesData = [
       customText: 'Alinhamento Conect',
       updateAt: new Date().toISOString(),
       statusType: {
-        statusTypeId: 2,
+        statusTypeId: 3,
         description: 'Reunião',
         iconUrl: 'https://cdn-icons-gif.flaticon.com/10690/10690276.gif'
       }
@@ -60,14 +60,12 @@ const generateNewId = () => {
 
 export const mockService = {
   getEmployees: async () => {
-    // Simula o delay de uma chamada de API
     return new Promise(resolve => setTimeout(() => resolve(employeesData), 500));
   },
   getEmployeeById: async (id) => {
     return new Promise(resolve => {
-      // Encontra o funcionário pelo ID
       const employee = employeesData.find(emp => emp.employeeId === id);
-      resolve(employee || null); // Retorna o funcionário ou null se não encontrar
+      resolve(employee || null); 
     });
   },
   addEmployee: async (employeeData) => {
