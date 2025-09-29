@@ -84,5 +84,8 @@ namespace StatusWS.Controllers
 
             return Ok(jiraDetails);
         }
+
+        
+
     }
 }

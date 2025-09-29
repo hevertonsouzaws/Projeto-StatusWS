@@ -41,7 +41,8 @@ namespace StatusWS.Services
                 {
                     Key = issue.Key.Value,
                     Summary = issue.Summary,
-                    Description = issue.Description
+                    Description = issue.Description,
+                    Status = issue.Status.Name
                 };
             }
             catch (Exception ex)
@@ -52,5 +53,6 @@ namespace StatusWS.Services
                 };
             }
         }
+
     }
 }
