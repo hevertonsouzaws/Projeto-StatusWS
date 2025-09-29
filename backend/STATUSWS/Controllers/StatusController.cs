@@ -88,38 +88,5 @@ namespace StatusWS.Controllers
             }
 
         }
-
-        /* Método POST para testes
-       [HttpPost]
-       public async Task<ActionResult<StatusDto>>PostStatus(StatusCreateDto statusCreateDto)
-       {
-           var status = new Status
-           {
-               CustomText = statusCreateDto.CustomText,
-               StatusTypeId = statusCreateDto.StatusTypeId,
-               UpdateAt = DateTime.UtcNow
-           };
-
-           _context.Statuses.Add(status);
-           await _context.SaveChangesAsync();
-
-           await _context.Entry(status).Reference(s => s.StatusType).LoadAsync();
-
-           var createdStatusDto = new StatusDto
-           {
-               StatusId = status.StatusId,
-               CustomText = status.CustomText,
-               UpdateAt = status.UpdateAt,
-               StatusType = new StatusTypeDto
-               {
-                   StatusTypeId = status.StatusType.StatusTypeId,
-                   Description = status.StatusType.Description,
-                   IconUrl = status.StatusType.IconUrl
-               }
-           };
-
-           return CreatedAtAction(nameof(GetStatus), new { id = createdStatusDto.StatusId }, createdStatusDto);
-
-       }*/
     }
 }

@@ -13,3 +13,6 @@
 *.user
 *.useros
 *.log
+
+# Secrets
+appsettings.Development.json

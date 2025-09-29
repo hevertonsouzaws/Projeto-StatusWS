@@ -1,9 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using StatusWS.Data;
+using StatusWS.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -12,7 +11,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddDbContext<AppDbContext>();
+builder.Services.AddScoped<IJiraService, JiraService>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
 // Configuração do CORS para fazer requisições com Vue local 
 builder.Services.AddCors(options =>
@@ -21,7 +21,7 @@ builder.Services.AddCors(options =>
         policyBuilder =>
         {
             policyBuilder.WithOrigins("https://localhost:7208",
-                                     "http://localhost:5006", "http://localhost:5173") // porta da aplicação Vue
+                                     "http://localhost:5006", "http://localhost:5173") // porta do Vue
                                      .AllowAnyHeader()
                                      .AllowAnyMethod();
         });
@@ -29,7 +29,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
