@@ -16,9 +16,9 @@
           
           <router-link to="/" class="hover:text-white-300">Login</router-link>
           <router-link to="/home" class="hover:text-blue-300">Home</router-link>
+          <router-link to="/user" class="hover:text-green-300">Usuário</router-link>
           <router-link v-if="isAdmin" to="/team" class="hover:text-red-300">Equipe</router-link>
           <router-link v-if="isAdmin" to="/status" class="hover:text-green-300">Status</router-link>
-          <router-link to="/user" class="hover:text-green-300">Usuário</router-link>
 
           <button @click="toggleMode" :class="[
             'px-4 py-2 rounded-lg font-medium transition-colors cursor-pointer',
