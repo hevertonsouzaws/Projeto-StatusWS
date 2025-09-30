@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using StatusWS.Dtos;
+using StatusWS.Models;
 using StatusWS.Services;
 
 namespace StatusWS.Controllers
@@ -10,11 +12,13 @@ namespace StatusWS.Controllers
     {
         private readonly IEmployeeService _employeeService;
         private readonly IJiraService _jiraService;
+        private readonly IPasswordHasher<Employee> _passwordHasher;
 
-        public EmployeeController(IEmployeeService employeeService, IJiraService jiraService)
+        public EmployeeController(IEmployeeService employeeService, IJiraService jiraService, IPasswordHasher<Employee> passwordHasher)
         {
             _employeeService = employeeService;
             _jiraService = jiraService;
+            _passwordHasher = passwordHasher;
         }
 
         [HttpGet]
@@ -51,7 +55,7 @@ namespace StatusWS.Controllers
             {
                 return NotFound();
             }
-            // Retorna o EmployeeDto completo e atualizado (com o status enriquecido)
+
             return Ok(employeeDto);
         }
 
@@ -67,7 +71,7 @@ namespace StatusWS.Controllers
         {
             if (!_jiraService.IsJiraKeyFormat(jiraKey))
             {
-                return BadRequest("Formato de chave do Jira inválido.");
+                return BadRequest("Formato de chave do Jira inválido, verifique os cards do Slack.");
             }
 
             var jiraDetails = await _jiraService.GetIssueDetailsAsync(jiraKey);
@@ -85,7 +89,24 @@ namespace StatusWS.Controllers
             return Ok(jiraDetails);
         }
 
-        
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+        {
+            var (employee, result) = await _employeeService.LoginAsync(loginDto);
+
+            if (result == PasswordVerificationResult.Failed)
+            {
+                return Unauthorized("Sua Senha ta errada!.");
+            }
+
+            return Ok(new
+            {
+                Message = "Logado!",
+                employee!.EmployeeId,
+                employee.Name
+            });
+        }
+
 
     }
 }

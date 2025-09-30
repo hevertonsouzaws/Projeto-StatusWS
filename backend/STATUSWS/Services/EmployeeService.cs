@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using StatusWS.Data;
 using StatusWS.Dtos;
 using StatusWS.Models;
@@ -10,11 +11,13 @@ namespace StatusWS.Services
     {
         private readonly AppDbContext _context;
         private readonly IJiraService _jiraService;
+        private readonly IPasswordHasher<Employee> _passwordHasher;
 
-        public EmployeeService(AppDbContext context, IJiraService jiraService)
+        public EmployeeService(AppDbContext context, IJiraService jiraService, IPasswordHasher<Employee> passwordHasher)
         {
             _context = context;
             _jiraService = jiraService;
+            _passwordHasher = passwordHasher;
         }
 
         private async Task<EmployeeDto> MapToDto(Employee employee)
@@ -113,6 +116,7 @@ namespace StatusWS.Services
             var employee = new Employee
             {
                 Name = employeeCreateDto.Name,
+                PasswordHash = _passwordHasher.HashPassword(null, employeeCreateDto.Password),
                 Position = employeeCreateDto.Position,
                 Photo = employeeCreateDto.Photo ?? "https://tarefas.websupply.com.br/painel/assets/userDefault-uMDAqLiz.png",
                 CreatedAt = DateTimeUtils.GetBrazilTime(),
@@ -139,13 +143,15 @@ namespace StatusWS.Services
 
             bool statusOrTextUpdated = false;
 
-            // Atualiza campos de Employee
             if (employeeUpdateDto.Name != null) employee.Name = employeeUpdateDto.Name;
+            if (!string.IsNullOrEmpty(employeeUpdateDto.Password))
+            {
+                employee.PasswordHash = _passwordHasher.HashPassword(employee, employeeUpdateDto.Password);
+            }
             if (employeeUpdateDto.Position != null) employee.Position = employeeUpdateDto.Position;
             if (employeeUpdateDto.Photo != null) employee.Photo = employeeUpdateDto.Photo;
             if (employeeUpdateDto.IsActive.HasValue) employee.IsActive = employeeUpdateDto.IsActive.Value;
 
-            // Atualiza campos de Status
             if (employeeUpdateDto.StatusTypeId.HasValue && employee.Status.StatusTypeId != employeeUpdateDto.StatusTypeId.Value)
             {
                 employee.Status.StatusTypeId = employeeUpdateDto.StatusTypeId.Value;
@@ -171,7 +177,6 @@ namespace StatusWS.Services
 
             await _context.SaveChangesAsync();
 
-            // Garante que o StatusType atualizado está carregado para o mapeamento
             if (statusOrTextUpdated)
             {
                 employee.Status.StatusType = await _context.StatusTypes
@@ -198,6 +203,21 @@ namespace StatusWS.Services
             }
 
             return employeeDtos;
+        }
+
+        public async Task<(Employee? Employee, PasswordVerificationResult VerificationResult)> LoginAsync(LoginDto loginDto)
+        {
+            var employee = await _context.Employees
+                .FirstOrDefaultAsync(e => e.EmployeeId == loginDto.EmployeeId && e.IsActive);
+
+            if (employee == null)
+            {
+                return (null, PasswordVerificationResult.Failed);
+            }
+
+            var result = _passwordHasher.VerifyHashedPassword(employee, employee.PasswordHash, loginDto.Password);
+
+            return (employee, result);
         }
 
     }

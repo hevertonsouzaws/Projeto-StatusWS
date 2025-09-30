@@ -3,6 +3,7 @@
     public class EmployeeUpdateDto
     {
         public string? Name { get; set; }
+        public string? Password { get; set; }
         public string? Position { get; set; }
         public string? Photo { get; set; }
         public int? StatusTypeId { get; set; }        

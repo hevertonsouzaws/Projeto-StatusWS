@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using StatusWS.Data;
+using StatusWS.Models;
 using StatusWS.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IJiraService, JiraService>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddSingleton<Microsoft.AspNetCore.Identity.IPasswordHasher<Employee>, Microsoft.AspNetCore.Identity.PasswordHasher<Employee>>();
 
 // Configuração do CORS para fazer requisições com Vue local 
 builder.Services.AddCors(options =>
@@ -21,7 +23,8 @@ builder.Services.AddCors(options =>
         policyBuilder =>
         {
             policyBuilder.WithOrigins("https://localhost:7208",
-                                     "http://localhost:5006", "http://localhost:5173") // porta do Vue
+                                     "http://localhost:5006",
+                                     "http://localhost:5173") //porta do vue local
                                      .AllowAnyHeader()
                                      .AllowAnyMethod();
         });

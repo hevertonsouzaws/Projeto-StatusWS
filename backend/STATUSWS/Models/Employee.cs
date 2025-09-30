@@ -9,6 +9,10 @@ namespace StatusWS.Models
         public int EmployeeId { get; set; }
 
         [Required]
+        [StringLength(256)]
+        public string PasswordHash { get; set; }
+
+        [Required]
         [StringLength(100)]
         public string Name { get; set; }    
 
