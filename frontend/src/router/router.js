@@ -20,16 +20,27 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  const authRequired = to.meta.requiresAuth;
+  const adminRequired = to.meta.requiresAdmin;
+  const isLoginPage = to.name === 'login';
+  
+  const isLogged = usuarioLogadoId.value; 
   const adminsNames = ['Heverton Souza', 'Aline Gallo'];
-  const isAdmin = usuarioLogado.value && adminsNames.includes(usuarioLogado.value.name);
-
-  if (to.meta.requiresAuth && !usuarioLogadoId.value) {
-    next({ name: 'login' });
-  } else if (to.meta.requiresAdmin && !isAdmin) {
-    next({ name: 'home' });
-  } else {
-    next();
+  const isAdmin = isLogged && usuarioLogado.value && adminsNames.includes(usuarioLogado.value.name);
+  
+  if (isLogged && isLoginPage) {
+    return next({ name: 'home' });
   }
+
+  if (authRequired && !isLogged) {
+    return next({ name: 'login' });
+  }
+
+  if (adminRequired && !isAdmin) {
+    return next({ name: 'home' }); 
+  }
+
+  next();
 });
 
 export default router;

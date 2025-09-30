@@ -94,7 +94,6 @@ export async function getJiraIssueDetails(jiraKey) {
 
 export async function searchJiraIssues(query) {
   if (isMockMode.value) {
-    // Retorna dados simulados para o modo mock
     return [
       { key: 'MOCK-1', summary: 'Tarefa de Exemplo 1', description: 'Descrição da Tarefa 1' },
       { key: 'MOCK-2', summary: 'Tarefa de Exemplo 2', description: 'Descrição da Tarefa 2' },
@@ -102,12 +101,34 @@ export async function searchJiraIssues(query) {
   }
 
   try {
-    // Presumindo que sua API tenha um endpoint para busca (ex: /jira-search?q=SW)
     const response = await api.get(`/Employee/jira-search?q=${query}`);
     return response.data;
   } catch (error) {
     console.error(`Erro ao buscar tarefas do Jira para ${query}:`, error);
-    // Para evitar quebrar o componente se a API falhar na busca, podemos retornar um array vazio
     return [];
   }
+}
+
+export async function authenticateLogin(employeeId, password) {
+    if (isMockMode.value) {
+        return mockService.authenticateLogin(employeeId, password);
+    }
+
+    const loginDto = {
+        employeeId: employeeId,
+        password: password
+    };
+
+    try {
+        const response = await api.post('/Employee/login', loginDto); 
+        return response.data; 
+
+    } catch (error) {
+        if (error.response && error.response.status === 401) {
+            throw new Error('Senha incorreta ou perfil inválido.'); 
+        }
+        
+        console.error('Erro de autenticação:', error);
+        throw new Error('Falha na comunicação com o servidor de autenticação.');
+    }
 }

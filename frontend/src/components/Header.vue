@@ -41,7 +41,6 @@
 import { isMockMode, toggleMode, usuarioLogadoId, usuarioLogado } from '../modeState';
 import { computed } from 'vue';
 
-// lista de adm
 const adminNames = ['Heverton Souza', 'Aline Gallo'];
 
 const isAdmin = computed(() => {
