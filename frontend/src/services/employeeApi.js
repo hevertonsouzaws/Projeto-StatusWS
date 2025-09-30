@@ -24,7 +24,7 @@ export async function getInactiveEmployees() {
   }
   
   try {
-    const response = await api.get('/Employee/Inactive');
+    const response = await api.get('/api/Employee/Inactive');
     return response.data;
   } catch (error) {
     console.error('Erro ao buscar funcionários inativos:', error);
@@ -38,7 +38,7 @@ export async function getEmployeeById(id) {
   }
 
   try {
-    const response = await api.get(`/Employee/${id}`);
+    const response = await api.get(`/api/Employee/${id}`);
     return response.data;
   } catch (error) {
     console.error(`Erro ao buscar funcionário ${id}:`, error);
@@ -52,7 +52,7 @@ export async function createEmployee(newEmployee) {
   }
   
   try {
-    const response = await api.post('/Employee', newEmployee);
+    const response = await api.post('/api/Employee', newEmployee);
     return response.data;
   } catch (error) {
     console.error('Erro ao criar funcionário:', error);
@@ -66,7 +66,7 @@ export async function updateEmployee(id, updateData) {
   }
   
   try {
-    await api.put(`/Employee/${id}`, updateData);
+    await api.put(`/api/Employee/${id}`, updateData);
   } catch (error) {
     console.error(`Erro ao atualizar funcionário ${id}:`, error);
     throw error;
@@ -84,7 +84,7 @@ export async function getJiraIssueDetails(jiraKey) {
   }
   
   try {
-    const response = await api.get(`/Employee/jira-details/${jiraKey}`);
+    const response = await api.get(`/api/Employee/jira-details/${jiraKey}`);
     return response.data;
   } catch (error) {
     console.error(`Erro ao buscar detalhes do Jira para ${jiraKey}:`, error);
@@ -101,7 +101,7 @@ export async function searchJiraIssues(query) {
   }
 
   try {
-    const response = await api.get(`/Employee/jira-search?q=${query}`);
+    const response = await api.get(`/api/Employee/jira-search?q=${query}`);
     return response.data;
   } catch (error) {
     console.error(`Erro ao buscar tarefas do Jira para ${query}:`, error);
@@ -120,7 +120,7 @@ export async function authenticateLogin(employeeId, password) {
     };
 
     try {
-        const response = await api.post('/Employee/login', loginDto); 
+        const response = await api.post('/api/Employee/login', loginDto); 
         return response.data; 
 
     } catch (error) {
