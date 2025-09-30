@@ -9,7 +9,7 @@ export async function getEmployees() {
   }
 
   try {
-    const response = await api.get('/Employee');
+    const response = await api.get('/api/employee');
     return response.data;
   } catch (error) {
     console.error('Erro ao buscar funcionários:', error);

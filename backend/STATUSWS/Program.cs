@@ -24,7 +24,10 @@ builder.Services.AddCors(options =>
         {
             policyBuilder.WithOrigins("https://localhost:7208",
                                      "http://localhost:5006",
-                                     "http://localhost:5173") //porta do vue local
+                                     "http://localhost:5173",
+                                     "https://projeto-status-ws.vercel.app",
+                                     "https://unmildewed-wilburn-obsequent.ngrok-free.dev")
+
                                      .AllowAnyHeader()
                                      .AllowAnyMethod();
         });
