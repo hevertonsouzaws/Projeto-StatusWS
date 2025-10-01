@@ -16,7 +16,6 @@ builder.Services.AddScoped<IJiraService, JiraService>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddSingleton<Microsoft.AspNetCore.Identity.IPasswordHasher<Employee>, Microsoft.AspNetCore.Identity.PasswordHasher<Employee>>();
 
-// Configuração do CORS para fazer requisições com Vue local 
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
