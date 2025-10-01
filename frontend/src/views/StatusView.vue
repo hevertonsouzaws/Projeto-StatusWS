@@ -3,9 +3,7 @@
     <div class="flex items-center justify-between mb-8">
       <h1 class="text-3xl font-bold">Tipos de status</h1>
     </div>
-
     <StatusForm :initial-data="editingStatus" @submit="handleFormSubmit" @cancel-edit="cancelEdit" class="mb-8" />
-
     <div v-if="loading" class="text-center">Carregando...</div>
     <div v-else>
       <StatusList :status-types="statusTypes" @edit-status="handleEditStatus" @delete-status="handleDeleteStatus" />
@@ -18,6 +16,7 @@ import { ref, onMounted } from 'vue';
 import { getStatusTypes, createStatusType, updateStatusType, deleteStatusType } from '../services/statusApi';
 import StatusForm from '../components/status/StatusForm.vue';
 import StatusList from '../components/status/StatusList.vue';
+import { showToast } from '../helpers/toastState.js';
 
 const statusTypes = ref([]);
 const loading = ref(true);
@@ -28,7 +27,7 @@ async function fetchStatusTypes() {
   try {
     statusTypes.value = await getStatusTypes();
   } catch (error) {
-    console.error('Deu erro aqui, verifique se o back end ta ligado!:', error);
+    showToast('Falha ao buscar tipos de status:', error);
   } finally {
     loading.value = false;
   }
@@ -38,15 +37,15 @@ async function handleFormSubmit(formData) {
   try {
     if (editingStatus.value) {
       await updateStatusType(formData.statusTypeId, formData);
-      alert('Status atualizado com sucesso!');
+      showToast('Status atualizado com sucesso!');
     } else {
       await createStatusType(formData);
-      alert('Status adicionado com sucesso!');
+      showToast('Status adicionado com sucesso!');
     }
     cancelEdit();
     fetchStatusTypes();
   } catch (error) {
-    alert('Erro ao processar a requisição. Verifique o console.');
+    showToast('Erro ao processar a requisição. Verifique o console.');
   }
 }
 
@@ -63,10 +62,10 @@ async function handleDeleteStatus(id) {
   if (confirm('Tem certeza que deseja remover este status?')) {
     try {
       await deleteStatusType(id);
-      alert('Status removido com sucesso!');
+      showToast('Status removido com sucesso!');
       fetchStatusTypes();
     } catch (error) {
-      alert('Erro ao remover status. Ele pode estar em uso por um funcionário.');
+      showToast('Erro ao remover status:', error);
     }
   }
 }

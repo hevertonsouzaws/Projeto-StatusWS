@@ -1,11 +1,11 @@
 <template>
     <div class="px-10 py-2 bg-gray-900 min-h-screen text-gray-100">
-        <div v-if="loading" class="text-center py-6 mt-10 bg-gray-800 w-2xl rounded-full m-auto border-1 border-green-500">
-            <h1 class="text-1xl">Calma ai, ta carregando o trem aqui...</h1>
+        <div v-if="loading"
+            class="text-center py-6 mt-10 bg-gray-800 w-2xl rounded-full m-auto border-1 border-green-500">
+            <h1 class="text-1xl">Calma ai, ta carregando o informações...</h1>
         </div>
         <div v-else class="max-w-full">
             <HomeInfo :active-count="activeEmployees.length" :status-counts="statusCounts" />
-
             <div class="rounded-2xl px-6">
                 <div v-if="activeEmployees.length === 0" class="text-center text-gray-400">
                     Nenhum WS ativo encontrado.
@@ -19,11 +19,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, computed } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { getEmployees } from '../services/employeeApi';
-import { isMockMode } from '../modeState.js';
 import StatusCard from '../components/home/StatusCard.vue';
 import HomeInfo from '../components/home/HomeInfo.vue';
+import { showToast } from '../helpers/toastState';
 
 const employees = ref([]);
 const loading = ref(true);
@@ -34,11 +34,9 @@ async function fetchEmployees() {
         const data = await getEmployees();
         employees.value = data;
     } catch (error) {
-        console.error('Vix! deu erro para buscar os WS´s, liga a api ai no visual studio', error);
+        showToast('Falha ao buscar WS´s:', error);
     } finally {
-        setTimeout(() => {
-            loading.value = false;
-        }, 500)
+        loading.value = false;
     }
 }
 
@@ -48,7 +46,7 @@ const activeEmployees = computed(() => {
     activeList.sort((a, b) => {
         const dateA = new Date(a.status?.updateAt || 0);
         const dateB = new Date(b.status?.updateAt || 0);
-        
+
         return dateB.getTime() - dateA.getTime();
     });
 
@@ -76,10 +74,6 @@ const statusCounts = computed(() => {
 });
 
 onMounted(() => {
-    fetchEmployees();
-});
-
-watch(isMockMode, () => {
     fetchEmployees();
 });
 </script>

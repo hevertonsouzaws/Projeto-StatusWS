@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { usuarioLogado, usuarioLogadoId } from '../modeState.js';
+import { usuarioLogado, usuarioLogadoId, isAdmin } from '../modeState.js';
 import Login from '../views/Login.vue'; 
 import HomeView from '../views/HomeView.vue';
 import TeamView from '../views/TeamView.vue';
@@ -18,6 +18,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+const isUserAdmin = isAdmin.value;
 
 router.beforeEach((to, from, next) => {
   const authRequired = to.meta.requiresAuth;
@@ -25,8 +26,6 @@ router.beforeEach((to, from, next) => {
   const isLoginPage = to.name === 'login';
   
   const isLogged = usuarioLogadoId.value; 
-  const adminsNames = ['Heverton Souza', 'Aline Gallo'];
-  const isAdmin = isLogged && usuarioLogado.value && adminsNames.includes(usuarioLogado.value.name);
   
   if (isLogged && isLoginPage) {
     return next({ name: 'home' });
@@ -34,6 +33,10 @@ router.beforeEach((to, from, next) => {
 
   if (authRequired && !isLogged) {
     return next({ name: 'login' });
+  }
+
+  if (adminRequired && !isUserAdmin) {
+    return next({ name: 'home'});
   }
 
   if (adminRequired && !isAdmin) {

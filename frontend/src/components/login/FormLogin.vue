@@ -5,41 +5,30 @@
         <img :src="employee.photo" :alt="employee.name" class="w-full h-full object-cover">
       </div>
     </div>
-
     <h2 class="text-2xl text-white mb-2">Entrar como {{ employee.name }}</h2>
     <p v-if="employee.position" class="text-sm text-gray-400 mb-6">{{ employee.position }}</p>
-
     <form @submit.prevent="$emit('submit-login')" class="flex flex-col gap-4">
       <div class="relative">
-        <input 
-          :value="password"
-          @input="$emit('update:password', $event.target.value)"
-          :type="passwordVisible ? 'text' : 'password'"
-          placeholder="Digite sua senha de acesso" 
-          required 
+        <input :value="password" @input="$emit('update:password', $event.target.value)"
+          :type="passwordVisible ? 'text' : 'password'" placeholder="Digite sua senha de acesso" required
           :disabled="loadingLogin"
-          class="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white rounded-lg focus:outline-none focus:border-red-500 pr-12 transition duration-300"
-        >
+          class="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white rounded-lg focus:outline-none focus:border-red-500 pr-12 transition duration-300">
         <button type="button" @click="$emit('toggle-password-visibility')"
           class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-white">
-          <span v-if="passwordVisible" class="text-sm cursor-pointer">ocultar</span>
-          <span v-else class="text-sm cursor-pointer">exibir</span>
+          <i v-if="passwordVisible" class="fi fi-rr-eye text-xl cursor-pointer mt-1"></i>
+          <i v-else class="fi fi-rr-lock text-xl cursor-pointer mt-1"></i>
         </button>
       </div>
-
       <button type="submit" :disabled="loadingLogin"
         class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-lg transition duration-300 disabled:opacity-50">
         {{ loadingLogin ? 'Verificando...' : 'Entrar' }}
       </button>
     </form>
-
     <button @click="$emit('reset-selection')"
       class="mt-4 w-full bg-gray-700 hover:bg-gray-600 text-gray-300 font-bold py-3 rounded-lg transition duration-300">
       Voltar para a seleção de perfis
     </button>
-
-    <p v-if="message" :class="{ 'text-red-500': isError, 'text-green-500': !isError }"
-      class="mt-4 text-sm font-medium">
+    <p v-if="message" :class="{ 'text-red-500': isError, 'text-green-500': !isError }" class="mt-4 text-sm font-medium">
       {{ message }}
     </p>
   </div>

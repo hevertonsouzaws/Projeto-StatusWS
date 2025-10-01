@@ -6,14 +6,12 @@
         </div>
         <div v-else class="max-w-7xl mx-auto">
             <h1 class="text-3xl font-bold text-white mb-8">Meu Perfil</h1>
-
             <div class="flex justify-between">
                 <UserProfileCard :employee="currentUser" class="mb-8" />
-
                 <UserJiraCard />
             </div>
-
-            <UserStatusUpdate :employee-id="currentUser?.employeeId" @status-updated="handleStatusUpdated" class="mb-10"/>
+            <UserStatusUpdate :employee-id="currentUser?.employeeId" @status-updated="handleStatusUpdated"
+                class="mb-10" />
         </div>
     </div>
 </template>
@@ -25,6 +23,7 @@ import UserStatusUpdate from '../components/user/UserStatusUpdate.vue';
 import UserJiraCard from '../components/user/UserJiraCard.vue';
 import { usuarioLogadoId } from '../modeState';
 import { getEmployeeById } from '../services/employeeApi';
+import { showToast } from '../helpers/toastState.js';
 
 const currentUser = ref(null);
 const loading = ref(true);
@@ -35,7 +34,7 @@ async function fetchCurrentUser() {
         const user = await getEmployeeById(usuarioLogadoId.value);
         currentUser.value = user;
     } catch (error) {
-        console.error('Erro ao buscar dados do usuário logado:', error);
+        showToast('Erro ao buscar dados do usuário logado:', error);
     } finally {
         loading.value = false;
     }

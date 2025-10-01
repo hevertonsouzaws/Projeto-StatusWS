@@ -1,38 +1,24 @@
 <template>
   <div class="px-8 py-20 bg-gray-900 min-h-auto text-gray-100 flex flex-col justify-center items-center">
-
     <div class="rounded-2xl p-6 text-center min-w-4xl max-w-7xl">
-      
-      <ProfileSelect
-        v-if="!selectedEmployee"
-        :employees="employees"
-        :loading="loading"
-        @select-employee="selectEmployee"
-      />
+      <ProfileSelect v-if="!selectedEmployee" :employees="employees" :loading="loading"
+        @select-employee="selectEmployee" />
 
-      <LoginForm
-        v-else
-        :employee="selectedEmployee"
-        :password="password"
-        :password-visible="passwordVisible"
-        :loading-login="loadingLogin"
-        :message="message"
-        :is-error="isError"
-        @update:password="password = $event"
-        @toggle-password-visibility="togglePasswordVisibility"
-        @submit-login="handleLogin"
-        @reset-selection="resetSelection"
-      />
-
+      <LoginForm v-else :employee="selectedEmployee" :password="password" :password-visible="passwordVisible"
+        :loading-login="loadingLogin" :message="message" :is-error="isError" @update:password="password = $event"
+        @toggle-password-visibility="togglePasswordVisibility" @submit-login="handleLogin"
+        @reset-selection="resetSelection" />
     </div>
   </div>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router';
-import { ref, onMounted, watch, nextTick } from 'vue';
-import { getEmployees, authenticateLogin } from '../../services/employeeApi.js'; 
-import { isMockMode, setUsuarioLogado } from '../../modeState.js';
+import { ref, onMounted, nextTick } from 'vue';
+import { getEmployees, authenticateLogin } from '../../services/employeeApi.js';
+import { setUsuarioLogado } from '../../modeState.js';
+import { showToast } from '../../helpers/toastState.js';
+
 import LoginForm from './FormLogin.vue';
 import ProfileSelect from './ProfileSelect.vue';
 
@@ -59,48 +45,48 @@ const selectEmployee = (employee) => {
 };
 
 const handleLogin = async () => {
-    loadingLogin.value = true;
-    message.value = '';
-    isError.value = false;
+  loadingLogin.value = true;
+  message.value = '';
+  isError.value = false;
 
-    try {
-        const data = await authenticateLogin(selectedEmployee.value.employeeId, password.value);
+  try {
+    const data = await authenticateLogin(selectedEmployee.value.employeeId, password.value);
 
-        if (data && data.employeeId) {
-            const userDataToStore = {
-                ...selectedEmployee.value,
-                employeeId: data.employeeId,
-                name: data.name,
-                id: data.employeeId,
-            };
+    if (data && data.employeeId) {
+      const userDataToStore = {
+        ...selectedEmployee.value,
+        employeeId: data.employeeId,
+        name: data.name,
+        id: data.employeeId,
+      };
 
-            setUsuarioLogado(userDataToStore);
-            
-            await nextTick(); 
-            router.push({ name: 'home' });
+      setUsuarioLogado(userDataToStore);
 
-            message.value = 'Login bem-sucedido!';
+      await nextTick();
+      showToast('Login realizado com sucesso!', 'success');
+      router.push({ name: 'home' });
 
-        } else {
-            message.value = 'Login falhou, mas a API retornou um sucesso vazio.';
-            isError.value = true;
-            loadingLogin.value = false;
-        }
-    } catch (error) {
-        const errorMessage = error.message || 'Erro de autenticação.';
+    } else {
+      message.value = 'Login falhou, mas a API retornou um sucesso vazio.';
+      isError.value = true;
+      loadingLogin.value = false;
+      showToast('Erro: Resposta de login inesperada.', 'error');
+    }
+  } catch (error) {
+    const errorMessage = error.message || 'Erro de autenticação.';
 
-        if (errorMessage.includes('Senha incorreta')) {
-            message.value = 'Senha incorreta ou perfil inválido.';
-        } else if (errorMessage.includes('Network Error') && !isMockMode.value) {
-            message.value = 'Falha na conexão com a API de Produção. Verifique o servidor.';
-        } else {
-            message.value = errorMessage;
-        }
+    if (errorMessage.includes('Senha incorreta')) {
+      message.value = 'Senha incorreta ou perfil inválido.';
+      showToast('Senha incorreta ou perfil inválido.', 'error');
+    } else {
+      message.value = 'Falha no login. Verifique as credenciais e o status do servidor.';
+      showToast('Falha no login. Verifique as credenciais e o status do servidor.', 'error');
+    }
 
-        isError.value = true;
-        password.value = '';
-        loadingLogin.value = false;
-    } 
+    isError.value = true;
+    password.value = '';
+    loadingLogin.value = false;
+  }
 };
 
 const resetSelection = () => {
@@ -115,7 +101,7 @@ async function fetchEmployees() {
     const data = await getEmployees();
     employees.value = data;
   } catch (error) {
-    console.error('Falha ao buscar funcionários:', error);
+    showToast('Falha ao buscar perfis. Verifique a API.', 'error');
   } finally {
     loading.value = false;
   }
@@ -124,11 +110,4 @@ async function fetchEmployees() {
 onMounted(() => {
   fetchEmployees();
 });
-
-watch(isMockMode, () => {
-  fetchEmployees();
-});
 </script>
-
-<style scoped>
-</style>

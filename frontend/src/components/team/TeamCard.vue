@@ -13,7 +13,6 @@
           </svg>
         </div>
       </div>
-
       <div class="flex-1 min-w-0">
         <div class="flex items-center space-x-2 mb-1">
           <h3 class="font-bold text-white text-xl leading-tight">
@@ -29,7 +28,6 @@
         </p>
       </div>
     </div>
-
     <div class="bg-gray-800/50 rounded-lg px-4 py-3 mb-6 w-full">
       <div class="flex items-center justify-between">
         <div class="flex flex-col space-y-1">
@@ -52,7 +50,6 @@
         </div>
       </div>
     </div>
-
     <div class="w-full mt-auto">
       <button @click="$emit('edit-employee', employee.employeeId)"
         class="w-full bg-gray-700/50 hover:bg-green-500/20 cursor-pointer text-gray-400 hover:text-white transition-all duration-300 p-3 rounded-lg flex items-center justify-center">
@@ -70,7 +67,7 @@
 
 <script setup>
 import { computed, defineProps, defineEmits } from 'vue';
-import { getTimeAgo } from '../../helpers/dateUtils'; 
+import { getTimeAgo } from '../../helpers/dateUtils';
 
 const props = defineProps({
   employee: {
@@ -89,5 +86,4 @@ const statusInfo = computed(() => {
     time: timeAgo,
   };
 });
-
 </script>

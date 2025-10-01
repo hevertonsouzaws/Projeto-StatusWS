@@ -1,5 +1,6 @@
 <template>
-    <div class="flex flex-col items-center bg-gray-800 rounded-2xl py-4 px-5 shadow-lg transform duration-300 min-w-100 max-w-100">
+    <div
+        class="flex flex-col items-center bg-gray-800 rounded-2xl py-4 px-5 shadow-lg transform duration-300 w-105 min-h-55 max-h-55">
         <div class="flex items-center w-full mb-1">
             <div
                 class="relative w-14 h-14 rounded-full overflow-hidden border border-transparent bg-green-500 flex-shrink-0">
@@ -9,18 +10,15 @@
                 <h3 class="text-white text-lg font-semibold truncate">{{ employee.name }}</h3>
             </div>
         </div>
-
         <div class="bg-gray-800/50 rounded-lg px-1 py-4 w-full">
             <div class="flex items-center justify-between">
                 <div class="flex flex-col space-y-2 min-w-[70%]">
                     <p class="text-lg font-medium text-green-400">
                         {{ employee.status?.statusType?.description }}
                     </p>
-                    
                     <p class="text-sm text-gray-200 bg-red-00 ">
-                         {{ employee.status?.displayText || employee.status?.customText  }}
+                        {{ employee.status?.displayText || employee.status?.customText || '...' }}
                     </p>
-                    
                     <p class="text-sm text-green-100">
                         Atualização: {{ formattedTimeAgo }}
                     </p>
@@ -39,7 +37,7 @@
 
 <script setup>
 import { computed } from 'vue';
-import { getTimeAgo } from '../../helpers/dateUtils'; 
+import { getTimeAgo } from '../../helpers/dateUtils';
 
 const props = defineProps({
     employee: {

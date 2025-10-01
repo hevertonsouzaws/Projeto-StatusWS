@@ -67,14 +67,3 @@ header {
 .neon-glow {
     box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
 }
-
-@layer base {
-  img {
-    user-select: none; /* Previne a seleção do texto */
-    -webkit-user-select: none; /* Para navegadores WebKit (Safari, Chrome) */
-    -webkit-user-drag: none; /* Previne o comportamento de arrastar em WebKit */
-    user-drag: none; /* Padrão */
-    -moz-user-select: none; /* Para Firefox */
-    -ms-user-select: none; /* Para Internet Explorer/Edge */
-  }
-}

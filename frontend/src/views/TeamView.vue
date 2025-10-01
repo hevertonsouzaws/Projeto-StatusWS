@@ -1,18 +1,15 @@
 <template>
   <div class="p-8 bg-gray-900 min-h-screen text-gray-100">
-
     <div ref="formAnchorRef"></div>
     <div class="flex justify-end mb-4">
       <button @click="editingEmployee = {}"
-         class="cursor-pointer bg-gradient-to-r from-red-600 to-purple-600 hover:red-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 neon-glow ">
+        class="cursor-pointer bg-gradient-to-r from-red-600 to-purple-600 hover:red-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 neon-glow ">
         <span class="font-bold">+</span> Novo WS
       </button>
     </div>
-
     <div v-if="editingEmployee" class="mb-8">
       <TeamForm :initial-data="editingEmployee" @submit="handleFormSubmit" @cancel-edit="clearEditingEmployee" />
     </div>
-
     <div v-if="loading" class="text-center">Calma ai, o trem está carregando...</div>
     <div v-else>
       <div class="glass-effect rounded-2xl p-6 max-w-7xl mx-auto mb-8">
@@ -25,7 +22,6 @@
             @edit-employee="handleEditEmployee" />
         </div>
       </div>
-
       <div v-if="inactiveEmployees.length > 0" class="glass-effect rounded-2xl p-6 max-w-7xl mx-auto">
         <h2 class="text-xl font-semibold text-white mb-6">Inativos</h2>
         <div class="flex flex-wrap justify-start gap-6">
@@ -38,11 +34,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted } from 'vue';
 import { getEmployees, getInactiveEmployees, createEmployee, updateEmployee } from '../services/employeeApi';
-import { isMockMode } from '../modeState.js';
 import TeamCard from '../components/team/TeamCard.vue';
 import TeamForm from '../components/team/TeamForm.vue';
+import { showToast } from '../helpers/toastState.js';
 
 const employees = ref([]);
 const inactiveEmployees = ref([]);
@@ -60,7 +56,7 @@ async function fetchAllEmployees() {
     employees.value = activeData;
     inactiveEmployees.value = inactiveData;
   } catch (error) {
-    console.error('Falha ao buscar funcionários:', error);
+    showToast('Falha ao carregar listas de WSs.', 'error');
   } finally {
     loading.value = false;
   }
@@ -96,27 +92,21 @@ async function handleFormSubmit(employeeData) {
       await fetchAllEmployees();
 
       clearEditingEmployee();
-      console.log('Funcionário atualizado com sucesso!');
+      showToast('WS atualizado com sucesso!', 'success');
     } else {
       const newEmployee = await createEmployee(employeeData);
       employees.value.push(newEmployee);
       clearEditingEmployee();
-      alert('WS adicionado com sucesso!');
+      showToast('WS adicionado com sucesso!', 'success');
     }
   } catch (error) {
-    console.error('Falha no post:', error);
-    alert('Erro! Verifique o console.');
+    showToast('Erro ao salvar WS. Verifique os dados.', 'error');
   }
 }
 
 onMounted(() => {
   fetchAllEmployees();
 });
-
-watch(isMockMode, () => {
-  fetchAllEmployees();
-});
-
 </script>
 
 <style scoped></style>

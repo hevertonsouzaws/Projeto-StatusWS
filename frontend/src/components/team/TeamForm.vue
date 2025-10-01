@@ -1,7 +1,6 @@
 <template>
   <div class="glass-effect rounded-2xl p-8 max-w-7xl mx-auto fade-in">
     <div class="flex flex-col md:flex-row gap-10">
-
       <div class="flex-1">
         <h2 class="text-xl font-semibold text-white mb-6">
           {{ isEditing ? 'Editar Funcionário' : 'Adicionar Novo Funcionário' }}
@@ -23,15 +22,12 @@
               <input type="url" id="photo" v-model="formData.photo"
                 class="mt-1 block w-full bg-gray-800 border border-gray-700 rounded-lg shadow-sm text-white focus:ring-blue-500 focus:border-blue-500 p-3">
             </div>
-
             <div v-if="isEditing" class="flex items-center">
               <input type="checkbox" id="isActive" v-model="formData.isActive"
                 class="h-4 w-4 text-blue-600 bg-gray-800 border-gray-600 rounded focus:ring-blue-500">
               <label for="isActive" class="ml-2 block text-sm font-medium text-gray-400">Funcionário Ativo</label>
             </div>
-
           </div>
-
           <button type="submit"
             class="mt-8 w-full bg-blue-500 hover:bg-blue-600 cursor-pointer text-white font-bold py-3 px-4 rounded-lg transition-colors">
             {{ isEditing ? 'Atualizar Funcionário' : 'Adicionar Funcionário' }}
@@ -42,14 +38,12 @@
           Cancelar
         </button>
       </div>
-
       <div class="flex-1 flex justify-center items-center p-4">
         <div class="p-4 rounded-lg bg-gray-800/50 w-full max-w-md flex flex-col items-center">
           <h3 class="text-white font-semibold text-center text-lg mb-4">Pré-visualização</h3>
           <TeamCard :employee="formData" />
         </div>
       </div>
-
     </div>
   </div>
 </template>

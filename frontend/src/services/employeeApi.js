@@ -1,134 +1,93 @@
 import api from './axiosConfig';
-import { mockService } from './mockService';
-import { isMockMode } from '../modeState.js';
+import { showToast } from '../helpers/toastState'; 
 
 export async function getEmployees() {
-  if (isMockMode.value) {
-    const allEmployees = await mockService.getEmployees();
-    return allEmployees.filter(e => e.isActive);
-  }
-
   try {
     const response = await api.get('/api/employee');
     return response.data;
   } catch (error) {
-    console.error('Erro ao buscar funcionários:', error);
+    showToast('Falha ao buscar a lista de funcionários.', 'error');
     throw error;
   }
 }
 
 export async function getInactiveEmployees() {
-  if (isMockMode.value) {
-    const allEmployees = await mockService.getEmployees();
-    return allEmployees.filter(e => !e.isActive);
-  }
-  
   try {
     const response = await api.get('/api/Employee/Inactive');
     return response.data;
   } catch (error) {
-    console.error('Erro ao buscar funcionários inativos:', error);
+    showToast('Falha ao buscar a lista de funcionários inativos.', 'error');
     throw error;
   }
 }
 
 export async function getEmployeeById(id) {
-  if (isMockMode.value) {
-    return mockService.getEmployeeById(id);
-  }
-
   try {
     const response = await api.get(`/api/Employee/${id}`);
     return response.data;
   } catch (error) {
-    console.error(`Erro ao buscar funcionário ${id}:`, error);
+    showToast(`Falha ao buscar funcionário ${id}.`, 'error');
     throw error;
   }
 }
 
 export async function createEmployee(newEmployee) {
-  if (isMockMode.value) {
-    return mockService.addEmployee(newEmployee);
-  }
-  
   try {
     const response = await api.post('/api/Employee', newEmployee);
+    showToast('Funcionário criado com sucesso!', 'success');
     return response.data;
   } catch (error) {
-    console.error('Erro ao criar funcionário:', error);
+    showToast('Erro ao criar funcionário. Verifique os dados.', 'error');
     throw error;
   }
 }
 
 export async function updateEmployee(id, updateData) {
-  if (isMockMode.value) {
-    return mockService.updateEmployee(updateData);
-  }
-  
   try {
     await api.put(`/api/Employee/${id}`, updateData);
+    showToast('Funcionário atualizado com sucesso!', 'success');
   } catch (error) {
-    console.error(`Erro ao atualizar funcionário ${id}:`, error);
+    showToast(`Erro ao atualizar funcionário ${id}.`, 'error');
     throw error;
   }
 }
 
-// SERVIÇO PARA BUSCAR DETALHES DA TAREFA JIRA
 export async function getJiraIssueDetails(jiraKey) {
-  if (isMockMode.value) {
-    return {
-      key: jiraKey,
-      summary: `[MOCK] ${jiraKey} - Título Simulado`,
-      description: 'Esta é a descrição detalhada da tarefa Jira, vinda do mock service.',
-    };
-  }
-  
   try {
     const response = await api.get(`/api/Employee/jira-details/${jiraKey}`);
     return response.data;
   } catch (error) {
-    console.error(`Erro ao buscar detalhes do Jira para ${jiraKey}:`, error);
+    showToast(`Falha ao buscar detalhes do Jira para ${jiraKey}.`, 'error');
     throw error;
   }
 }
 
 export async function searchJiraIssues(query) {
-  if (isMockMode.value) {
-    return [
-      { key: 'MOCK-1', summary: 'Tarefa de Exemplo 1', description: 'Descrição da Tarefa 1' },
-      { key: 'MOCK-2', summary: 'Tarefa de Exemplo 2', description: 'Descrição da Tarefa 2' },
-    ];
-  }
-
   try {
     const response = await api.get(`/api/Employee/jira-search?q=${query}`);
     return response.data;
   } catch (error) {
-    console.error(`Erro ao buscar tarefas do Jira para ${query}:`, error);
+    showToast(`Falha ao buscar tarefas do Jira para ${query}.`, 'error');
     return [];
   }
 }
 
 export async function authenticateLogin(employeeId, password) {
-    if (isMockMode.value) {
-        return mockService.authenticateLogin(employeeId, password);
+  const loginDto = {
+    employeeId: employeeId,
+    password: password
+  };
+
+  try {
+    const response = await api.post('/api/Employee/login', loginDto);
+    return response.data;
+
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      throw new Error('Senha incorreta ou perfil inválido.');
     }
 
-    const loginDto = {
-        employeeId: employeeId,
-        password: password
-    };
-
-    try {
-        const response = await api.post('/api/Employee/login', loginDto); 
-        return response.data; 
-
-    } catch (error) {
-        if (error.response && error.response.status === 401) {
-            throw new Error('Senha incorreta ou perfil inválido.'); 
-        }
-        
-        console.error('Erro de autenticação:', error);
-        throw new Error('Falha na comunicação com o servidor de autenticação.');
-    }
+    showToast('Falha na comunicação com o servidor de autenticação.', 'error');
+    throw new Error('Falha na comunicação com o servidor de autenticação.');
+  }
 }
