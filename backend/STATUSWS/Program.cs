@@ -27,7 +27,6 @@ builder.Services.AddCors(options =>
                                      "http://localhost:5173",
                                      "https://projeto-status-ws.vercel.app",
                                      "https://unmildewed-wilburn-obsequent.ngrok-free.dev")
-
                                      .AllowAnyHeader()
                                      .AllowAnyMethod();
         });
