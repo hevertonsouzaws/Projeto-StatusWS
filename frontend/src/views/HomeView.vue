@@ -10,7 +10,7 @@
                 <div v-if="activeEmployees.length === 0" class="text-center text-gray-400">
                     Nenhum WS ativo encontrado.
                 </div>
-                <div v-else class="flex flex-wrap justify-start gap-6">
+                <div v-else class="flex flex-wrap justify-start gap-6 pb-8">
                     <StatusCard v-for="employee in activeEmployees" :key="employee.employeeId" :employee="employee" />
                 </div>
             </div>

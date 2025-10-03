@@ -3,7 +3,7 @@
         <div
             class="rounded-2xl py-4 px-6 mb-8 gap-4 flex items-center justify-right flex-wrap border border-gray-700 hover:border-gray-500 min-w-[70%] lg:w-auto">
             <div
-                class="bg-gray-800 rounded-xl text-center py-2 px-4 border border-blue-400 flex items-center justify-around flex-grow min-w-[150px] max-w-[150] sm:min-w-50 sm:max-w-40">
+                class="bg-gray-800 rounded-xl text-center py-2 px-4 border border-blue-700 flex items-center justify-around flex-grow h-18 min-w-[150px] max-w-[150] sm:min-w-50 sm:max-w-40">
                 <div>
                     <p class="text-gray-200 text-sm">Ativos</p>
                     <h3 class="text-white text-xl font-bold">{{ activeCount }}</h3>
@@ -12,7 +12,7 @@
                     alt="Ícone Ativos">
             </div>
             <div v-for="status in statusCounts" :key="status.name" class="bg-gray-800 rounded-xl text-center py-2 px-4 border border-green-800 
-                       flex items-center justify-around flex-grow min-w-[150px] max-w-[150] sm:min-w-50 sm:max-w-40">
+                       flex items-center justify-around flex-grow min-w-200 max-w-150 h-18 sm:min-w-50 sm:max-w-40">
                 <div>
                     <p class="text-gray-200 text-sm">{{ status.name }}</p>
                     <h3 class="text-white text-xl font-bold">{{ status.count }}</h3>

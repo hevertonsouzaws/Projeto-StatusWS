@@ -30,7 +30,7 @@ export const logoutUsuario = () => {
     setUsuarioLogado(null);
 };
 
-const ADMIN_NAMES = ['Heverton Souza', 'Aline Gallo', 'Regis Beraldi'];
+const ADMIN_NAMES = ['Heverton Souza', 'Aline Gallo', 'Regis Beraldi', 'Letícia Astorga'];
 
 export const isAdmin = computed(() => {
     return usuarioLogado.value && ADMIN_NAMES.includes(usuarioLogado.value.name);
