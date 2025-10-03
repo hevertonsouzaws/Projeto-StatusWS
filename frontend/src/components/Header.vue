@@ -9,7 +9,9 @@
             </router-link>
           </div>
           <div>
-            <h1 class="text-2xl text-white">Status WS</h1>
+            <router-link to="/home">
+              <h1 class="text-2xl text-gray-200 hover:text-white">Status WS</h1>
+            </router-link>
           </div>
         </div>
         <nav class="flex items-center space-x-8 text-gray-400">
@@ -21,9 +23,9 @@
             <router-link to="/user" class="group flex flex-col items-center hover:text-red-500 transition duration-200">
               <i class="fi fi-rr-square-plus text-xl transition-transform duration-200 group-hover:scale-115 mt-2"></i>
             </router-link>
-            <router-link v-if="isAdmin" to="/team"
+            <router-link v-if="isAdmin" to="/time"
               class="group flex flex-col items-center hover:text-red-500 transition duration-200">
-              <i class="fi fi-rr-users-alt text-xl transition-transform duration-200 group-hover:scale-115 mt-2"></i>
+              <i class="fi fi-rr-users-alt  text-xl transition-transform duration-200 group-hover:scale-115 mt-2"></i>
             </router-link>
             <router-link v-if="isAdmin" to="/status"
               class="group flex flex-col items-center hover:text-red-500 transition duration-200">
