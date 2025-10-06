@@ -4,13 +4,13 @@ namespace StatusWS.Services
 {
     internal class BasicAuthentication : JiraCache
     {
-        private string email;
-        private string token;
+        private readonly string _email;
+        private readonly string _token;
 
         public BasicAuthentication(string email, string token)
         {
-            this.email = email;
-            this.token = token;
+            _email = email;
+            _token = token;
         }
     }
 }

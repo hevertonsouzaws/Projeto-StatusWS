@@ -1,5 +1,6 @@
 ﻿using Atlassian.Jira;
 using StatusWS.Dtos;
+using StatusWS.Errors;
 
 namespace StatusWS.Services
 {
@@ -15,9 +16,9 @@ namespace StatusWS.Services
         {
             _configuration = configuration;
             _prefix = _configuration["Jira:ProjectPrefix"] ?? "PROJETO";
-            _url = _configuration["Jira:Url"];
-            _email = _configuration["Jira:Email"];
-            _token = _configuration["Jira:ApiToken"];
+            _url = _configuration["Jira:Url"] ?? throw new ArgumentNullException("Jira:Url", "A URL do Jira não está configurada.");
+            _email = _configuration["Jira:Email"] ?? throw new ArgumentNullException("Jira:Email", "O e-mail do Jira não está configurado.");
+            _token = _configuration["Jira:ApiToken"] ?? throw new ArgumentNullException("Jira:ApiToken", "O token da API do Jira não está configurado.");
         }
 
         public bool IsJiraKeyFormat(string content)
@@ -29,7 +30,7 @@ namespace StatusWS.Services
         {
             if (!IsJiraKeyFormat(issueKey))
             {
-                return new JiraIssueDto { ErrorMessage = "Formato de chave Jira inválido." };
+                throw new BadRequestException("Formato de chave Jira inválido.");
             }
 
             try
@@ -47,10 +48,7 @@ namespace StatusWS.Services
             }
             catch (Exception ex)
             {
-                return new JiraIssueDto
-                {
-                    ErrorMessage = ex.Message.Split('\n')[0]
-                };
+                throw new BadRequestException($"Erro ao consultar a API do Jira: {ex.Message}");
             }
         }
 

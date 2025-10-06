@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using StatusWS.Data;
 using StatusWS.Dtos;
+using StatusWS.Errors;
 using StatusWS.Models;
 using StatusWS.Utils;
 
@@ -56,16 +57,25 @@ namespace StatusWS.Services
 
             if (_jiraService.IsJiraKeyFormat(content))
             {
-                var jiraDetails = await _jiraService.GetIssueDetailsAsync(content);
+                try 
+                {
+                    var jiraDetails = await _jiraService.GetIssueDetailsAsync(content);
 
-                if (!string.IsNullOrEmpty(jiraDetails.Summary))
-                {
-                    statusDto.DisplayText = $"{jiraDetails.Key} - {jiraDetails.Summary}";
-                    statusDto.CustomText = null;
+                    if (!string.IsNullOrEmpty(jiraDetails.Summary))
+                    {
+                        statusDto.DisplayText = $"{jiraDetails.Key} - {jiraDetails.Summary}";
+                        statusDto.CustomText = null;
+                    }
+                    else
+                    {
+                        statusDto.DisplayText = $"Jira Erro: {content} ({jiraDetails.ErrorMessage})";
+                        statusDto.CustomText = null;
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    statusDto.DisplayText = $"Jira Erro: {content} ({jiraDetails.ErrorMessage})";
+
+                    statusDto.DisplayText = $"Jira Erro de Serviço Jira: Não foi possível obter detalhes ({content}).";
                     statusDto.CustomText = null;
                 }
             }
@@ -73,7 +83,6 @@ namespace StatusWS.Services
             return statusDto;
         }
 
-        // GET all Active
         public async Task<IEnumerable<EmployeeDto>> GetAllActiveEmployeesAsync()
         {
             var employees = await _context.Employees
@@ -89,7 +98,6 @@ namespace StatusWS.Services
             return employeeDtos;
         }
 
-        // GET ID
         public async Task<EmployeeDto> GetEmployeeByIdAsync(int id)
         {
             var employee = await _context.Employees
@@ -98,12 +106,14 @@ namespace StatusWS.Services
                .ThenInclude(s => s.StatusType)
                .FirstOrDefaultAsync(e => e.EmployeeId == id);
 
-            if (employee == null) return null;
+            if (employee == null)
+            {
+                throw new NotFoundException($"Funcionário com ID {id} não foi encontrado ou está inativo.");
+            }
 
             return await MapToDto(employee);
         }
 
-        // POST (Create)
         public async Task<EmployeeDto> CreateEmployeeAsync(EmployeeCreateDto employeeCreateDto)
         {
             var defaultStatus = new Status
@@ -131,7 +141,6 @@ namespace StatusWS.Services
             return await MapToDto(employee);
         }
 
-        // PUT (Update)
         public async Task<EmployeeDto> UpdateEmployeeAsync(int id, EmployeeUpdateDto employeeUpdateDto)
         {
             var employee = await _context.Employees
@@ -139,7 +148,10 @@ namespace StatusWS.Services
                 .ThenInclude(s => s.StatusType)
                 .FirstOrDefaultAsync(e => e.EmployeeId == id);
 
-            if (employee == null) return null;
+            if (employee == null)
+            {
+                throw new NotFoundException($"Funcionário com ID {id} não foi encontrado para atualização.");
+            }
 
             bool statusOrTextUpdated = false;
 
@@ -186,7 +198,6 @@ namespace StatusWS.Services
             return await MapToDto(employee);
         }
 
-        // GET Inactive
         public async Task<IEnumerable<EmployeeDto>> GetInactiveEmployeesAsync()
         {
             var employees = await _context.Employees
@@ -205,19 +216,25 @@ namespace StatusWS.Services
             return employeeDtos;
         }
 
-        public async Task<(Employee? Employee, PasswordVerificationResult VerificationResult)> LoginAsync(LoginDto loginDto)
+        public async Task<Employee> LoginAsync(LoginDto loginDto)
         {
+
             var employee = await _context.Employees
                 .FirstOrDefaultAsync(e => e.EmployeeId == loginDto.EmployeeId && e.IsActive);
 
             if (employee == null)
             {
-                return (null, PasswordVerificationResult.Failed);
+                throw new UnauthorizedException("ID de funcionário ou senha inválidos.");
             }
 
             var result = _passwordHasher.VerifyHashedPassword(employee, employee.PasswordHash, loginDto.Password);
 
-            return (employee, result);
+            if (result == PasswordVerificationResult.Failed)
+            {
+                throw new UnauthorizedException("ID de funcionário ou senha inválidos.");
+            }
+
+            return employee;
         }
 
     }

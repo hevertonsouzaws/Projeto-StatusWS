@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using StatusWS.Dtos;
 using StatusWS.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace StatusWS.Services
 {
@@ -13,6 +11,6 @@ namespace StatusWS.Services
         Task<EmployeeDto> CreateEmployeeAsync(EmployeeCreateDto employeeCreateDto);
         Task<EmployeeDto> UpdateEmployeeAsync(int id, EmployeeUpdateDto employeeUpdateDto);
         Task<IEnumerable<EmployeeDto>> GetInactiveEmployeesAsync();
-        Task<(Employee? Employee, PasswordVerificationResult VerificationResult)> LoginAsync(LoginDto loginDto);
+        Task<Employee> LoginAsync(LoginDto loginDto);
     }
 }

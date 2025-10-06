@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using StatusWS.Data;
 using StatusWS.Dtos;
 using StatusWS.Models;
-
+using StatusWS.Services;
 
 namespace StatusWS.Controllers
 {
@@ -11,125 +11,47 @@ namespace StatusWS.Controllers
     [ApiController]
     public class StatusTypeController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IStatusTypeService _statusTypeService;
 
-        public StatusTypeController(AppDbContext context)
+        public StatusTypeController(IStatusTypeService statusTypeService)
         {
-            _context = context;
+            _statusTypeService = statusTypeService;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StatusTypeDto>>> GetStatusTypes()
         {
-            return await _context.StatusTypes
-                .Select(st => new StatusTypeDto
-                {
-                    StatusTypeId = st.StatusTypeId,
-                    Description = st.Description,
-                    IconUrl = st.IconUrl
-                })
-                .ToListAsync();
+            var statusTypes = await _statusTypeService.GetAllStatusTypesAsync();
+            return Ok(statusTypes);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<StatusTypeDto>> GetStatusType(int id)
         {
-            var statusType = await _context.StatusTypes.FirstOrDefaultAsync(st => st.StatusTypeId == id);
-
-            if (statusType == null)
-            {
-                return NotFound();
-            }
-
-            var statusTypeDto = new StatusTypeDto
-            {
-                StatusTypeId = statusType.StatusTypeId,
-                Description = statusType.Description,
-                IconUrl = statusType.IconUrl
-            };
-
-            return statusTypeDto;
+            var statusTypeDto = await _statusTypeService.GetStatusTypeByIdAsync(id);
+            return Ok(statusTypeDto);
         }
 
         [HttpPost]
         public async Task<ActionResult<StatusTypeDto>> PostStatusType(StatusTypeCreateDto statusTypeDto)
         {
-            var statusType = new StatusType
-            {
-                Description = statusTypeDto.Description,
-                IconUrl = statusTypeDto.IconUrl 
-            };
+            var createdStatusTypeDto = await _statusTypeService.CreateStatusTypeAsync(statusTypeDto);
 
-            try
-            {
-                _context.StatusTypes.Add(statusType);
-                await _context.SaveChangesAsync();
-
-                var createdStatusTypeDto = new StatusTypeDto
-                {
-                    StatusTypeId = statusType.StatusTypeId,
-                    Description = statusType.Description,
-                    IconUrl = statusType.IconUrl ?? "https://tarefas.websupply.com.br/painel/assets/StatusGeolocalizacao-DxUl3vfK.png",
-
-                };
-
-                return CreatedAtAction(nameof(GetStatusType), new { id = createdStatusTypeDto.StatusTypeId }, createdStatusTypeDto);
-            }
-            catch ( Exception e)
-            {
-                return BadRequest();
-            }
+            return CreatedAtAction(nameof(GetStatusType), new { id = createdStatusTypeDto.StatusTypeId }, createdStatusTypeDto);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> PutStatusType(int id, StatusTypeCreateDto statusTypeDto)
         {
-            var statusType = await _context.StatusTypes.FindAsync(id);
-
-            if (statusType == null)
-            {
-                return NotFound();
-            }
-
-            try
-            {
-                statusType.Description = statusTypeDto.Description;
-                statusType.IconUrl = statusTypeDto.IconUrl ?? "https://tarefas.websupply.com.br/painel/assets/StatusGeolocalizacao-DxUl3vfK.png";
-
-                await _context.SaveChangesAsync();
-
-                return NoContent();
-            }
-            catch (Exception e)
-            {
-                return BadRequest();
-            }
-           
+            await _statusTypeService.UpdateStatusTypeAsync(id, statusTypeDto);
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStatus(int id)
         {
-
-            var statusType = await _context.StatusTypes.FindAsync(id);
-
-            if (statusType == null)
-            {
-                return NotFound();
-            }
-
-            _context.StatusTypes.Remove(statusType);
-
-            try
-            {
-                await _context.SaveChangesAsync();
-
-                return NoContent();
-            }
-            catch (Exception e)
-            {
-                return BadRequest();
-            }
+            await _statusTypeService.DeleteStatusTypeAsync(id);
+            return NoContent();
         }
     }
 }

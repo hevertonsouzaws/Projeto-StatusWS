@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using StatusWS.Data;
+using StatusWS.Middleware;
 using StatusWS.Models;
 using StatusWS.Services;
 
@@ -12,11 +13,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<IJiraService, JiraService>();
+builder.Services.AddScoped<IStatusTypeService, StatusTypeService>();
+builder.Services.AddScoped<IStatusService, StatusService>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IJiraService, JiraService>();
 builder.Services.AddSingleton<Microsoft.AspNetCore.Identity.IPasswordHasher<Employee>, Microsoft.AspNetCore.Identity.PasswordHasher<Employee>>();
 
-// Configuração do CORS para fazer requisições com Vue local 
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
@@ -39,6 +42,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 

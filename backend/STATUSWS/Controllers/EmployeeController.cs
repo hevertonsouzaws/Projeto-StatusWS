@@ -32,10 +32,6 @@ namespace StatusWS.Controllers
         public async Task<ActionResult<EmployeeDto>> GetEmployee(int id)
         {
             var employeeDto = await _employeeService.GetEmployeeByIdAsync(id);
-            if (employeeDto == null)
-            {
-                return NotFound();
-            }
             return Ok(employeeDto);
         }
 
@@ -50,12 +46,6 @@ namespace StatusWS.Controllers
         public async Task<IActionResult> PutEmployee(int id, EmployeeUpdateDto employeeUpdateDto)
         {
             var employeeDto = await _employeeService.UpdateEmployeeAsync(id, employeeUpdateDto);
-
-            if (employeeDto == null)
-            {
-                return NotFound();
-            }
-
             return Ok(employeeDto);
         }
 
@@ -69,40 +59,19 @@ namespace StatusWS.Controllers
         [HttpGet("jira-details/{jiraKey}")]
         public async Task<ActionResult<JiraIssueDto>> GetJiraDetails(string jiraKey)
         {
-            if (!_jiraService.IsJiraKeyFormat(jiraKey))
-            {
-                return BadRequest("Formato de chave do Jira inválido, verifique os cards do Slack.");
-            }
-
             var jiraDetails = await _jiraService.GetIssueDetailsAsync(jiraKey);
-
-            if (!string.IsNullOrEmpty(jiraDetails.ErrorMessage))
-            {
-                return StatusCode(500, jiraDetails.ErrorMessage);
-            }
-
-            if (string.IsNullOrEmpty(jiraDetails.Summary))
-            {
-                return NotFound();
-            }
-
             return Ok(jiraDetails);
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
-            var (employee, result) = await _employeeService.LoginAsync(loginDto);
-
-            if (result == PasswordVerificationResult.Failed)
-            {
-                return Unauthorized("Sua Senha ta errada!.");
-            }
+            var employee = await _employeeService.LoginAsync(loginDto);
 
             return Ok(new
             {
-                Message = "Logado!",
-                employee!.EmployeeId,
+                Message = "Logado com sucesso!",
+                employee.EmployeeId,
                 employee.Name
             });
         }
