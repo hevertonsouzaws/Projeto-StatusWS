@@ -3,7 +3,8 @@
     <div class="flex items-center justify-between mb-8">
       <h1 class="text-3xl font-bold">Tipos de status</h1>
     </div>
-    <StatusForm :initial-data="editingStatus" @submit="handleFormSubmit" @cancel-edit="cancelEdit" class="mb-8" />
+    <StatusForm :initial-data="editingStatus" @submit="handleFormSubmit" @cancel-edit="cancelEdit"
+      @delete="handleDeleteStatus" class="mb-8" />
     <div v-if="loading" class="text-center">Carregando...</div>
     <div v-else>
       <StatusList :status-types="statusTypes" @edit-status="handleEditStatus" @delete-status="handleDeleteStatus" />
@@ -59,14 +60,13 @@ function cancelEdit() {
 }
 
 async function handleDeleteStatus(id) {
-  if (confirm('Tem certeza que deseja remover este status?')) {
-    try {
-      await deleteStatusType(id);
-      showToast('Status removido com sucesso!');
-      fetchStatusTypes();
-    } catch (error) {
-      showToast('Erro ao remover status:', error);
-    }
+  try {
+    await deleteStatusType(id);
+    showToast('Status removido com sucesso!');
+    cancelEdit();
+    fetchStatusTypes();
+  } catch (error) {
+    showToast('Erro ao remover status:', error);
   }
 }
 

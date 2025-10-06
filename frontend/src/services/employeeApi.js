@@ -1,73 +1,88 @@
 import api from './axiosConfig';
-import { showToast } from '../helpers/toastState'; 
+import { showToast } from '../helpers/toastState';
+import { getErrorMessage } from '../helpers/apiHelpers';
 
 export async function getEmployees() {
+  const defaultMessage = 'Falha ao buscar a lista de WS´s.';
   try {
     const response = await api.get('/api/employee');
     return response.data;
   } catch (error) {
-    showToast('Falha ao buscar a lista de funcionários.', 'error');
+    const errorMessage = getErrorMessage(error, defaultMessage);
+    showToast(errorMessage, 'error');
     throw error;
   }
 }
 
 export async function getInactiveEmployees() {
+  const defaultMessage = 'Falha ao buscar a lista de funcionários inativos.';
   try {
     const response = await api.get('/api/Employee/Inactive');
     return response.data;
   } catch (error) {
-    showToast('Falha ao buscar a lista de funcionários inativos.', 'error');
+    const errorMessage = getErrorMessage(error, defaultMessage);
+    showToast(errorMessage, 'error');
     throw error;
   }
 }
 
 export async function getEmployeeById(id) {
+  const defaultMessage = `Falha ao bsucar funcionário ${id}.`;
   try {
     const response = await api.get(`/api/Employee/${id}`);
     return response.data;
   } catch (error) {
-    showToast(`Falha ao buscar funcionário ${id}.`, 'error');
+    const errorMessage = getErrorMessage(error, defaultMessage);
+    showToast(errorMessage, 'error');
     throw error;
   }
 }
 
 export async function createEmployee(newEmployee) {
+  const defaultMessage = 'Erro ao criar funcionário. Verifique os dados.';
   try {
     const response = await api.post('/api/Employee', newEmployee);
     showToast('Funcionário criado com sucesso!', 'success');
     return response.data;
   } catch (error) {
-    showToast('Erro ao criar funcionário. Verifique os dados.', 'error');
+    const errorMessage = getErrorMessage(error, defaultMessage);
+    showToast(errorMessage, 'error');
     throw error;
   }
 }
 
 export async function updateEmployee(id, updateData) {
+  const defaultMessage = `Erro ao atualizar funcionário ${id}.`;
   try {
     await api.put(`/api/Employee/${id}`, updateData);
     showToast('Funcionário atualizado com sucesso!', 'success');
   } catch (error) {
-    showToast(`Erro ao atualizar funcionário ${id}.`, 'error');
+    const errorMessage = getErrorMessage(error, defaultMessage);
+    showToast(errorMessage, 'error');
     throw error;
   }
 }
 
 export async function getJiraIssueDetails(jiraKey) {
+  const defaultMessage = `Falha ao buscar detalhes do Jira para ${jiraKey}.`;
   try {
     const response = await api.get(`/api/Employee/jira-details/${jiraKey}`);
     return response.data;
   } catch (error) {
-    showToast(`Falha ao buscar detalhes do Jira para ${jiraKey}.`, 'error');
+    const errorMessage = getErrorMessage(error, defaultMessage);
+    showToast(errorMessage, 'error');
     throw error;
   }
 }
 
 export async function searchJiraIssues(query) {
+  const defaultMessage = `Falha ao buscar tarefas do Jira para ${query}.`;
   try {
     const response = await api.get(`/api/Employee/jira-search?q=${query}`);
     return response.data;
   } catch (error) {
-    showToast(`Falha ao buscar tarefas do Jira para ${query}.`, 'error');
+    const errorMessage = getErrorMessage(error, defaultMessage);
+    showToast(errorMessage, 'error');
     return [];
   }
 }
@@ -77,17 +92,19 @@ export async function authenticateLogin(employeeId, password) {
     employeeId: employeeId,
     password: password
   };
+  const defaultMessage = 'Falha na comunicação com o servidor de autenticação.';
 
   try {
     const response = await api.post('/api/Employee/login', loginDto);
     return response.data;
-
   } catch (error) {
+    const errorMessage = getErrorMessage(error, defaultMessage);
+
     if (error.response && error.response.status === 401) {
-      throw new Error('Senha incorreta ou perfil inválido.');
+      throw new Error(errorMessage);
     }
 
-    showToast('Falha na comunicação com o servidor de autenticação.', 'error');
-    throw new Error('Falha na comunicação com o servidor de autenticação.');
+    showToast(errorMessage, 'error');
+    throw new Error(errorMessage);
   }
 }

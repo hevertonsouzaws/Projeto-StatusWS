@@ -67,20 +67,20 @@ const handleLogin = async () => {
       router.push({ name: 'home' });
 
     } else {
-      message.value = 'Login falhou, mas a API retornou um sucesso vazio.';
+      message.value = 'Não foi possível concluir o login. Ocorreu um problema inesperado.';
       isError.value = true;
       loadingLogin.value = false;
-      showToast('Erro: Resposta de login inesperada.', 'error');
+       showToast('Erro no sistema. Tente novamente ou entre em contato com o suporte.', 'error');
     }
   } catch (error) {
     const errorMessage = error.message || 'Erro de autenticação.';
 
     if (errorMessage.includes('Senha incorreta')) {
-      message.value = 'Senha incorreta ou perfil inválido.';
-      showToast('Senha incorreta ou perfil inválido.', 'error');
+      message.value = 'A senha está incorreta. Por favor, verifique e tente novamente.';
+      showToast('Senha incorreta.', 'error');
     } else {
-      message.value = 'Falha no login. Verifique as credenciais e o status do servidor.';
-      showToast('Falha no login. Verifique as credenciais e o status do servidor.', 'error');
+      message.value = 'Não foi possível fazer o login. Por favor, verifique se selecionou o perfil correto e tente novamente.';
+      showToast('Erro ao fazer login. Tente novamente.', 'error');
     }
 
     isError.value = true;
@@ -101,7 +101,7 @@ async function fetchEmployees() {
     const data = await getEmployees();
     employees.value = data;
   } catch (error) {
-    showToast('Falha ao buscar perfis. Verifique a API.', 'error');
+    showToast('Não foi possível carregar os perfis. Por favor, tente recarregar a página.', 'error');
   } finally {
     loading.value = false;
   }
